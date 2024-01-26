@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./components/Card";
 import capybara from "./images/capybara.jpg";
 import cat from "./images/cat.jpg";
@@ -20,6 +20,9 @@ const data = [
 function App() {
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
+  const [firstCard, setFirstCard] = useState(null);
+  const [secondCard, setSecondCard] = useState(null);
+
   const shuffleCards = () => {
     const shuffeledCards = [...data, ...data]
       .sort(() => Math.random() - 0.5)
@@ -27,6 +30,29 @@ function App() {
     setCards(shuffeledCards);
     setTurns(0);
   };
+
+  const resetCards = () => {
+    setFirstCard(null);
+    setSecondCard(null);
+    setTurns(turns + 1);
+  };
+
+  const handleChoice = (card) => {
+    firstCard ? setSecondCard(card) : setFirstCard(card);
+  };
+
+  useEffect(() => {
+    if (firstCard && secondCard) {
+      if (firstCard.src === secondCard.src) {
+        console.log("Карты совпадают");
+        resetCards();
+      } else {
+        console.log("Карты не совпадают");
+        resetCards();
+      }
+    }
+  }, [firstCard, secondCard]);
+
   return (
     <div className="App">
       <h1>Memory Game</h1>
@@ -35,7 +61,7 @@ function App() {
       </button>
       <div className="cards">
         {cards.map((card) => (
-          <Card key={card.id} src={card.src} />
+          <Card key={card.id} card={card} handleChoice={handleChoice} />
         ))}
       </div>
     </div>
