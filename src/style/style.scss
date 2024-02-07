@@ -6,10 +6,6 @@
   box-sizing: border-box;
 }
 
-// $russianviolet: #320e3b;
-// $glaucous: #6b7fd7;
-// $nyanza: #ddfbd2;
-
 body {
   display: flex;
   justify-content: center;
@@ -20,13 +16,13 @@ h1 {
   margin: 20px 0;
   font-family: "Nunito", sans-serif;
   text-align: center;
-  font-size: 35px;
+  font-size: 40px;
   color: #bcedf6;
 }
 
 .start {
   display: flex;
-  margin: auto;
+  margin: 20px auto 30px;
   padding: 8px 13px;
   font-family: "Nunito", sans-serif;
   font-size: 23px;
@@ -43,17 +39,43 @@ h1 {
 
 .cards {
   padding: 0 10px;
-  margin: 40px 0 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
   .card {
     position: relative;
     max-width: 200px;
-    background-color: #320e3b;
+    cursor: pointer;
     img {
       display: block;
       width: 100%;
+    }
+    .card_front {
+      transform: rotateY(90deg);
+      position: absolute;
+      transition: all ease-in 0.2s;
+      border: 3px solid #6b7fd7;
+      border-radius: 7px;
+    }
+    .card_back {
+      background-color: #320e3b;
+      transition: all ease-in 0.2s;
+      transition-delay: 0.2s;
+      border: 3px solid #6b7fd7;
+      border-radius: 7px;
+    }
+    .flipped {
+      .card_front {
+        transform: rotateY(0deg);
+        transition-delay: 0.2s;
+      }
+      .card_back {
+        transform: rotateY(90deg);
+        transition-delay: 0s;
+      }
     }
   }
 }
